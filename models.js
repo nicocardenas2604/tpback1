@@ -2,26 +2,35 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { randomUUID } from "node:crypto";
 import { handleError } from "./utils/handleError.js";
 
-const PATH_FILE = ".data/users.json";
+const PATH_FILE = process.env.PATH_FILE;
 
-const getUsers = () => {
-  const existsFile = existsSync(PATH_FILE);
-  if (!existsFile) {
-    writeFileSync(PATH_FILE, JSON.stringify([]));
-    return [];
-  }
-  return JSON.parse(readFileSync(PATH_FILE));
-
+const getUsers = (urlFile) => {
   try {
+    if (!urlFile) {
+      throw new Error("Don't have permissions");
+    }
+
+    const existsFile = existsSync(PATH_FILE);
+
+    if (!existsFile) {
+      writeFileSync(PATH_FILE, JSON.stringify([]));
+      throw new Error("File doesn't exists...");
+    }
+
+    const users = JSON.parse(readFileSync(PATH_FILE));
+    return users;
   } catch (error) {
-    // const objError = handleError()
-    // return objError;
+    const objError = handleError();
+    return objError;
   }
 };
 
+const response = getUsers();
+console.log(response);
+
 const getUserById = (id) => {
-  // try {
-  //} catch (error) {}
+  try {
+  } catch (error) {}
 };
 
 // addUser recibe un objeto con toda la data para el nuevo usuario
@@ -31,7 +40,7 @@ const getUserById = (id) => {
 // valida que el email sea un string y que no se repita
 // hashea la contraseña antes de registrar al usuario
 const addUser = (userData) => {
-  const { nombre, apellido, email, contraseña } = userData;
+  const { nombre, apellido, email, password } = userData;
 
   const users = getUsers();
 
@@ -46,7 +55,7 @@ const addUser = (userData) => {
     nombre,
     apellido,
     email: email,
-    contraseña,
+    password,
   };
 
   users.push(newUser);
@@ -63,7 +72,7 @@ const addUser = (userData) => {
 // si se modifica la pass debería ser nuevamente hasheada
 // si se modifica el email, validar que este no exista
 const updateUser = (id, userData) => {
-  const { nombre, apellido, email, contraseña } = userData;
+  const { nombre, apellido, email, password } = userData;
 
   const users = getUsers();
 
@@ -76,7 +85,7 @@ const updateUser = (id, userData) => {
   if (nombre) existUser.nombre = nombre;
   if (apellido) existUser.apellido = apellido;
   if (email) existUser.email = email;
-  if (contraseña) existUser.contraseña = contraseña;
+  if (password) existUser.password = password;
 
   writeFileSync(PATH_FILE, JSON.stringify(users));
   return existUser;
