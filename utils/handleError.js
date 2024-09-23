@@ -9,7 +9,7 @@ const handleError = (error, path) => {
     date: new Date().toISOString(),
   };
   dbError.push(newError);
-  writeFileSync(path, JSON.stringify(newError));
+  writeFileSync(path, JSON.stringify(dbError));
 };
 
 export { handleError };

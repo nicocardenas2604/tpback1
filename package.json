@@ -4,10 +4,14 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "info": "node ./utils/info.js"
+    "info": "node ./utils/info.js",
+    "dev": "PATH_FILE= './data/users.json' node models.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "dotenv": "16.4.5"
+  }
 }
