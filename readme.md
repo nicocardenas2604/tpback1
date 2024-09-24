@@ -1,4 +1,4 @@
-# README - Uso de Comandos en el Módulo de Gestión de Usuarios
+# Módulo de Gestión de Usuarios
 
 Este módulo permite interactuar con el sistema de gestión de usuarios a través de la línea de comandos. A continuación, se explica cómo utilizar los diferentes comandos disponibles.
 
