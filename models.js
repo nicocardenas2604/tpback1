@@ -1,7 +1,6 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { randomUUID } from "node:crypto";
 import { handleError } from "./utils/handleError.js";
-import { get } from "node:http";
 import { config } from "dotenv";
 
 config();
@@ -9,13 +8,17 @@ config();
 const PATH_USERS_FILE = process.env.PATH_USERS_FILE;
 const PATH_USERS_ERROR = process.env.PATH_USERS_ERROR;
 
-const getUsers = () => {
-  const existsFile = existsSync(PATH_USERS_FILE);
-
+const getUsers = (urlFile) => {
   try {
+    if (!urlFile) {
+      throw new Error("Don't have permissions");
+    }
+
+    const existsFile = existsSync(PATH_USERS_FILE);
+
     if (!existsFile) {
       writeFileSync(PATH_USERS_FILE, JSON.stringify([]));
-      console.log("El archivo no existía, se creó uno nuevo.");
+      throw new Error("File doesn't exists...");
     }
 
     const users = JSON.parse(readFileSync(PATH_USERS_FILE));
@@ -25,8 +28,7 @@ const getUsers = () => {
     return objError;
   }
 };
-
-const response = getUsers();
+const response = getUsers(PATH_FILE);
 console.log(response);
 
 const getUserById = (id) => {
@@ -48,6 +50,8 @@ const getUserById = (id) => {
     return objError;
   }
 };
+
+console.log(getUserById(2));
 
 // addUser recibe un objeto con toda la data para el nuevo usuario
 // valida que esten los datos míminos para añadir un nuevo usuario
