@@ -9,6 +9,9 @@ import {
   createUserObject,
   createUpdateUserObject,
 } from "./utils/createObjectUser.js";
+import { config } from "dotenv";
+
+config();
 
 const args = process.argv.splice(2);
 
