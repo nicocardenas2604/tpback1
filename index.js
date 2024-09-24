@@ -3,7 +3,13 @@
 // 3° evaluar que acción quiere realizar el usuario (list, search/get, add, update, delete)
 // 4° DEVOLVER EL OUTPUT AL CLIENTE FINAL
 
-import { getUsers, addUser, updateUser, deleteUser } from "./models.js";
+import {
+  getUsers,
+  getUserById,
+  addUser,
+  updateUser,
+  deleteUser,
+} from "./models.js";
 
 import {
   createUserObject,
@@ -20,6 +26,9 @@ const action = args[0];
 switch (action) {
   case "list":
     console.log(getUsers());
+    break;
+  case "getID":
+    console.log(getUserById(args[1]));
     break;
   case "add":
     const newUser = createUserObject(args);
